@@ -1,0 +1,5 @@
+Release Notes:
+=============
+
+v 0.0.4: Initial Release.
+v 0.0.5: During the table creation, the column specification is made optional. 
