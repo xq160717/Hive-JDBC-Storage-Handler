@@ -5,7 +5,7 @@
 
     <groupId>qubole-hive-JDBC</groupId>
     <artifactId>qubole-hive-JDBC</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <packaging>jar</packaging>
 
     <name>qubole-hive-JDBC-storage-handler</name>
