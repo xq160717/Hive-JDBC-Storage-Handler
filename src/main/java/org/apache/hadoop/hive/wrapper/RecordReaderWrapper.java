@@ -63,6 +63,11 @@ public class RecordReaderWrapper<K, V> implements RecordReader<K, V> {
     
         TaskAttemptID taskAttemptID = TaskAttemptID.forName(oldJobConf
                 .get("mapred.task.id"));
+
+        if (taskAttemptID !=null) {
+            LOG.info("Task attempt id is >> " + taskAttemptID.toString());
+        }
+
         if(oldJobConf.get(Constants.LAZY_SPLIT) != null &&
                 (oldJobConf.get(Constants.LAZY_SPLIT)).toUpperCase().equals("TRUE")){
             lazySplitActive = true;
@@ -108,10 +113,7 @@ public class RecordReaderWrapper<K, V> implements RecordReader<K, V> {
         } else {
             split = ((InputSplitWrapper) oldSplit).realSplit;
         }
-        if (taskAttemptID == null) {
-            taskAttemptID = new TaskAttemptID();
-        }
-        LOG.info("Task attempt id is >> " + taskAttemptID.toString());
+
 
         // create a MapContext to pass reporter to record reader (for counters)
         TaskAttemptContext taskContext = ShimLoader.getHadoopShims()
