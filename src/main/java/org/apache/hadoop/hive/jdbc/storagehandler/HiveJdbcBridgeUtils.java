@@ -20,6 +20,7 @@ package org.apache.hadoop.hive.jdbc.storagehandler;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
@@ -67,6 +68,8 @@ public class HiveJdbcBridgeUtils {
 			return Types.BIGINT;
 		} else if ("timestamp".equals(lctype)) {
 			return Types.TIMESTAMP;
+		}else if ("date".equals(lctype)) {
+			return Types.DATE;
 		} else if ("binary".equals(lctype)) {
 			return Types.BINARY;
 		} else if (lctype.startsWith("array<")) {
@@ -96,6 +99,8 @@ public class HiveJdbcBridgeUtils {
 			return PrimitiveObjectInspectorFactory.javaLongObjectInspector;
 		case Types.TIMESTAMP:
 			return PrimitiveObjectInspectorFactory.javaTimestampObjectInspector;
+		case Types.DATE:
+			return PrimitiveObjectInspectorFactory.javaDateObjectInspector;
 		case Types.BINARY:
 			return PrimitiveObjectInspectorFactory.javaByteArrayObjectInspector;
 		case Types.ARRAY:
@@ -157,6 +162,10 @@ public class HiveJdbcBridgeUtils {
 		case Types.TIMESTAMP: {
 			long time = in.readLong();
 			return new Timestamp(time);
+		}
+		case Types.DATE: {
+			long time = in.readLong();
+			return new Date(time);
 		}
 		case Types.BINARY: {
 			int size = in.readInt();
@@ -230,6 +239,11 @@ public class HiveJdbcBridgeUtils {
 			out.writeLong(time.getTime());
 			return;
 		}
+		case Types.DATE: {
+			Date d = (Date) obj;
+			out.writeLong(d.getTime());
+			return;
+		}
 		case Types.BINARY: {
 			byte[] b = (byte[]) obj;
 			out.writeInt(b.length);
@@ -284,6 +298,9 @@ public class HiveJdbcBridgeUtils {
 		}
 		if (clazz == Timestamp.class) {
 			return Types.TIMESTAMP;
+		}
+		if (clazz == Date.class) {
+			return Types.DATE;
 		}
 		if (clazz == byte[].class) {
 			return Types.BINARY;
