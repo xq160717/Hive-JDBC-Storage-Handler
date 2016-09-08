@@ -67,6 +67,8 @@ public class HiveJdbcBridgeUtils {
 			return Types.BIGINT;
 		} else if ("timestamp".equals(lctype)) {
 			return Types.TIMESTAMP;
+		} else if ("date".equals(lctype)) {
+			return Types.DATE;
 		} else if ("binary".equals(lctype)) {
 			return Types.BINARY;
 		} else if (lctype.startsWith("array<")) {
@@ -96,6 +98,8 @@ public class HiveJdbcBridgeUtils {
 			return PrimitiveObjectInspectorFactory.javaLongObjectInspector;
 		case Types.TIMESTAMP:
 			return PrimitiveObjectInspectorFactory.javaTimestampObjectInspector;
+		case Types.DATE:
+			return PrimitiveObjectInspectorFactory.javaDateObjectInspector;
 		case Types.BINARY:
 			return PrimitiveObjectInspectorFactory.javaByteArrayObjectInspector;
 		case Types.ARRAY:
