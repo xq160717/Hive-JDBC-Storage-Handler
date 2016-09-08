@@ -138,6 +138,8 @@ public class JdbcSerDeHelper {
             return "BIGINT";
         } else if ("timestamp".equals(lctype)) {
             return "TIMESTAMP";
+        } else if ("date".equals(lctype)) {
+            return "DATE";
         } else if ("binary".equals(lctype)) {
             return "BINARY";
         } else if (lctype.startsWith("array")) {
