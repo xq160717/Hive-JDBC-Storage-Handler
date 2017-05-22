@@ -118,7 +118,7 @@ public class JdbcSerDeHelper {
     }
 
     public String sqlToHiveColumnTypeNames(String sqlType)
-            throws SerDeException {
+        throws SerDeException {
         final String lctype = sqlType.toLowerCase();
         if ("varchar".equals(lctype)) {
             return "STRING";
@@ -126,6 +126,8 @@ public class JdbcSerDeHelper {
             return "FLOAT";
         } else if ("double".equals(lctype)) {
             return "DOUBLE";
+        } else if (lctype.startsWith("decimal")) {
+            return "DECIMAL";
         } else if ("boolean".equals(lctype)) {
             return "BOOLEAN";
         } else if ("tinyint".equals(lctype)) {
