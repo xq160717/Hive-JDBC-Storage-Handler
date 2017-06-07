@@ -33,6 +33,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.objectinspector.PrimitiveObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
+import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoFactory;
 
 public class HiveJdbcBridgeUtils {
 
@@ -74,6 +75,8 @@ public class HiveJdbcBridgeUtils {
 			return Types.BINARY;
 		} else if (lctype.startsWith("array<")) {
 			return Types.ARRAY;
+		} else if (lctype.startsWith("decimal")) {
+			return Types.DECIMAL;
 		}
 		throw new SerDeException("Unrecognized column type: " + hiveType);
 	}
@@ -103,6 +106,8 @@ public class HiveJdbcBridgeUtils {
 			return PrimitiveObjectInspectorFactory.javaDateObjectInspector;
 		case Types.BINARY:
 			return PrimitiveObjectInspectorFactory.javaByteArrayObjectInspector;
+		case Types.DECIMAL:
+			return new JavaBigDecimalObjectInspector(TypeInfoFactory.decimalTypeInfo);
 		case Types.ARRAY:
 			String hiveElemType = hiveType.substring(hiveType.indexOf('<') + 1,
 					hiveType.indexOf('>')).trim();
@@ -112,7 +117,7 @@ public class HiveJdbcBridgeUtils {
 			return ObjectInspectorFactory
 					.getStandardListObjectInspector(listElementOI);
 		default:
-			throw new SerDeException("Cannot find getObjectInspecto for: "
+			throw new SerDeException("Cannot find getObjectInspector for: "
 					+ hiveType);
 		}
 	}
