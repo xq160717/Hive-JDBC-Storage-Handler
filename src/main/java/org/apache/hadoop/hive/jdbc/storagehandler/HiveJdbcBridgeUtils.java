@@ -46,9 +46,6 @@ public class HiveJdbcBridgeUtils {
 		return result;
 	}
 
-	/**
-	 * @see org.apache.hadoop.hive.jdbc.Utils#hiveTypeToSqlType(String)
-	 */
 	private static int hiveTypeToSqlType(String hiveType) throws SerDeException {
 		final String lctype = hiveType.toLowerCase();
 		if ("string".equals(lctype)) {
